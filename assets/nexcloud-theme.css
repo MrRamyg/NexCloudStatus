@@ -1,0 +1,34 @@
+:root {
+  --body-background-color: #f4f7fb;
+  --body-text-color: #15232f;
+  --card-background-color: #ffffff;
+  --nav-background-color: #ffffff;
+  --nav-border-bottom-color: #e6edf5;
+  --nav-current-border-bottom-color: #cf3a1f;
+  --card-border-color: #e6edf5;
+  --down-border-left-color: #eb3b5a;
+  --down-background-color: #ffd0d2;
+  --degraded-border-left-color: #f7b731;
+  --up-border-left-color: #20bf6b;
+  --tag-color: #ffffff;
+  --tag-up-background-color: #20bf6b;
+  --tag-down-background-color: #eb3b5a;
+  --tag-degraded-background-color: #f7b731;
+  --change-background-color: #f7b731;
+  --error-button-border-color: #cf3a1f;
+  --error-button-background-color: #cf3a1f;
+  --error-button-color: #ffffff;
+  --submit-button-border-color: #cf3a1f;
+  --submit-button-background-color: #cf3a1f;
+  --submit-button-color: #ffffff;
+  --graph-opacity: 1;
+  --graph-filter: none;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+.navbar-title {
+  color: #15232f;
+}
