@@ -10,8 +10,8 @@ sites:
     url: https://nexcloud.enterprises
   - name: Nexfinity Hosting
     url: https://nexfinityhosting.com
-  - name: Discord Community
-    url: https://discord.gg/ZCmYMf9afe
+  - name: Community Forum
+    url: https://forum.nexcloud.enterprises
   - name: js4u.site
     url: https://js4u.site
 
@@ -23,7 +23,7 @@ status-website:
   theme: light
   themeUrl: https://status.nexcloud.enterprises/nexcloud-theme.css
   introTitle: "**NexCloud Enterprises** service status"
-  introMessage: "Live status for the NexCloud Enterprises website, Nexfinity hosting, the js4u.site domain, and our Discord community. Uptime is checked every 5 minutes."
+  introMessage: "Live status for the NexCloud Enterprises website, Nexfinity hosting, the js4u.site domain, and our community forum. Uptime is checked every 5 minutes."
   navbar:
     - title: Status
       href: /
