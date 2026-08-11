@@ -1,0 +1,94 @@
+############################################################
+# NexCloud Status - powered by cState
+# https://github.com/cstate/cstate
+############################################################
+
+title: NexCloud Status
+baseURL: https://status.nexcloud.enterprises/
+languageCode: en
+defaultContentLanguage: en
+enableGitInfo: true
+buildFuture: true
+theme: cstate
+preserveTaxonomyNames: true
+
+taxonomies:
+  affected: affected
+
+outputs:
+  page:
+    - html
+    - json
+  section:
+    - html
+    - json
+    - rss
+  home:
+    - html
+    - json
+    - rss
+    - svg
+  term:
+    - html
+    - json
+    - rss
+    - svg
+
+outputFormats:
+  svg:
+    isPlainText: true
+    mediaType: image/svg+xml
+
+params:
+  categories:
+    - name: Websites
+      description: NexCloud websites and domains.
+    - name: Community
+      description: Community services.
+
+  systems:
+    - name: NexCloud Enterprises Website
+      description: The main NexCloud Enterprises website.
+      category: Websites
+      link: https://nexcloud.enterprises
+    - name: Nexfinity Hosting
+      description: Hosting dashboard and website.
+      category: Websites
+      link: https://nexfinityhosting.com
+    - name: js4u.site
+      description: The js4u.site domain and its services.
+      category: Websites
+      link: https://js4u.site
+    - name: Community Forum
+      description: The NexCloud community forum.
+      category: Community
+      link: https://forum.nexcloud.enterprises
+
+  dateFormat: January 2, 2006 at 3:04 PM UTC
+  shortDateFormat: 15:04 UTC — Jan 2
+  useRelativeTime: true
+  skipSeconds: false
+  enableLastMod: true
+  useLargeHeaderDesign: false
+  incidentHistoryFormat: yearly
+  disableIncidentHistory: false
+  disableDarkMode: false
+  useLogo: true
+  logo: logo.png
+  description: Live status for the NexCloud Enterprises website, Nexfinity hosting, the js4u.site domain, and the community forum. Uptime is checked every 5 minutes.
+  incidentPostsPerPage: 10
+
+  customTabs:
+    - name: Home
+      link: https://nexcloud.enterprises
+    - name: Nexfinity
+      link: https://nexfinityhosting.com
+
+  brand: "#0C4F9F"
+  ok: "#008000"
+  disrupted: "#cc4400"
+  down: "#e60000"
+  notice: "#24478f"
+  alwaysKeepBrandColor: true
+  headerTextColor: white
+  googleAnalytics: UA-00000000-1
