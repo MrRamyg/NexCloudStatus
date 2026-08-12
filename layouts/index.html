@@ -13,6 +13,13 @@
     <!-- Custom tabs -->
     {{ partial "index/tabs" . }}
 
+    <!-- All incidents + pagination -->
+    {{ if not .Site.Params.disableIncidentHistory }}
+      <div class="contain contain--more" id="incidents">
+        {{ partial "index/incidents" . }}
+      </div>
+    {{ end }}
+
     <!-- Main -->
     <div class="contain">
       <!-- Enable JavaScript banner -->
@@ -35,14 +42,6 @@
       {{ end }}
       <!-- End main -->
     </div>
-
-  <!-- All incidents + pagination -->
-  {{ if not .Site.Params.disableIncidentHistory }}
-    <div class="contain contain--more" id="incidents">
-	  {{ partial "index/incidents" . }}
-      <div class="padding"></div>
-    </div>
-  {{ end }}
 
   {{ partial "js" . }}
   {{ partial "footer" . }}
