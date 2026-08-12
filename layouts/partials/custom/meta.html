@@ -10,12 +10,12 @@
 
 	:root {
 		color-scheme: dark;
-		--nc-bg: #000000;
-		--nc-surface: #121212;
-		--nc-surface-2: #1d1d1d;
-		--nc-border: #2b2b2b;
-		--nc-border-strong: #3d3d3d;
-		--nc-hover: #181818;
+		--nc-bg: #0a0a0a;
+		--nc-surface: #171717;
+		--nc-surface-2: #222222;
+		--nc-border: #2a2a2a;
+		--nc-border-strong: #3b3b3b;
+		--nc-hover: #1e1e1e;
 		--nc-text: #fafafa;
 		--nc-muted: #8b8b8b;
 		--nc-faint: #5f5f5f;
@@ -34,9 +34,7 @@
 		color: var(--nc-text) !important;
 	}
 	body {
-		background-color: var(--nc-bg) !important;
-		background-image: radial-gradient(1100px 420px at 50% -180px, rgba(255, 255, 255, 0.035), transparent) !important;
-		background-repeat: no-repeat !important;
+		background: var(--nc-bg) !important;
 		font-family: 'Inter', system-ui, -apple-system, sans-serif;
 		-webkit-font-smoothing: antialiased;
 	}
@@ -564,3 +562,40 @@
 		.issue__badge { align-self: flex-start; }
 	}
 </style>
+
+{{ if .IsHome }}
+{{ $incidents := where .Site.RegularPages "Params.section" "issue" }}
+{{ $active := where $incidents "Params.resolved" "=" false }}
+{{ $isDown := where $active "Params.severity" "=" "down" }}
+{{ $isDisrupted := where $active "Params.severity" "=" "disrupted" }}
+{{ $isNotice := where $active "Params.severity" "=" "notice" }}
+
+{{ $statusText := "All systems operational" }}
+{{ if $isDown }}
+  {{ $statusText = "Major service outage" }}
+{{ else if $isDisrupted }}
+  {{ $statusText = "Experiencing disruptions" }}
+{{ else if $isNotice }}
+  {{ $statusText = "Maintenance in progress" }}
+{{ end }}
+
+{{ $ogTitle := printf "%s — %s" .Site.Title $statusText }}
+{{ $ogDesc := .Site.Params.description }}
+{{ if $active }}
+  {{ $parts := slice }}
+  {{ range $active }}
+    {{ $parts = $parts | append (printf "%s — %s" .Title (.Content | plainify | truncate 200)) }}
+  {{ end }}
+  {{ $ogDesc = delimit $parts " " }}
+{{ end }}
+
+<meta property="og:title" content="{{ $ogTitle }}">
+<meta property="og:description" content="{{ $ogDesc }}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:site_name" content="{{ .Site.Title }}">
+{{ with .Site.Params.logo }}<meta property="og:image" content="{{ . | absURL }}">{{ end }}
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{{ $ogTitle }}">
+<meta name="twitter:description" content="{{ $ogDesc }}">
+{{ end }}
