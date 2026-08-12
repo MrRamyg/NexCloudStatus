@@ -1,10 +1,242 @@
 <style>
-	/* NexCloud customizations */
+	/* ============================================================
+	   NexCloud Status — dark dashboard restyle
+	   Matches the Nexfinity dashboard look: near-black surfaces,
+	   brand-blue accents, pill status badges, larger containers.
+	   ============================================================ */
+
+	:root { color-scheme: dark; }
+
+	/* ---- Base surfaces ---- */
+	html, body {
+		background: #0a0b0d !important;
+		color: #d9dee5 !important;
+	}
+	body {
+		background-color: #0a0b0d !important;
+		background-image: radial-gradient(900px 340px at 50% -120px, rgba(12, 79, 159, 0.22), transparent) !important;
+		background-repeat: no-repeat !important;
+	}
+	::selection { background: rgba(59, 130, 246, 0.35); }
+	h1, h2, h3, h4, a, .bold { color: #eef1f5; }
+	.faded, .hinted { color: #98a1ad; }
+	hr { border-color: #1e222b; }
+
+	/* ---- Wider containers ---- */
+	.contain {
+		max-width: 800px;
+		margin: 24px auto;
+		padding: 20px;
+	}
+	.contain--more { max-width: 840px; }
+
+	/* ---- Header ---- */
+	.header {
+		padding: 16px 0;
+		background: #0b0d12 !important;
+		border-bottom: 1px solid #1c2027;
+	}
+	.header a { color: #fff; }
 	.header__logo--small img {
 		width: 96px;
 		height: auto;
 		border-radius: 12px;
-		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+		box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18), 0 4px 16px rgba(0, 0, 0, 0.45);
 		background: #fff;
 	}
+
+	/* ---- Summary banner ---- */
+	.summary.status-box {
+		padding: 30px 32px;
+		border-radius: 16px;
+		border: 1px solid rgba(255, 255, 255, 0.10);
+		box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+	}
+	.status-ok .summary { background: linear-gradient(135deg, #11834b, #0a5c2c) !important; }
+	.status-disrupted .summary { background: linear-gradient(135deg, #b45309, #92400e) !important; }
+	.status-down .summary { background: linear-gradient(135deg, #b91c1c, #7f1d1d) !important; }
+	.status-notice .summary { background: linear-gradient(135deg, #1d4ed8, #1e3a8a) !important; }
+	.summary .status-text { font-size: 24px; }
+	.summary .status-text strong {
+		display: inline-flex;
+		align-items: center;
+		gap: 12px;
+	}
+	.summary .status-text strong::before {
+		content: "";
+		width: 11px;
+		height: 11px;
+		border-radius: 50%;
+		background: #fff;
+		box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.18);
+	}
+	.summary__date { color: rgba(255, 255, 255, 0.82) !important; }
+
+	/* ---- Category heads ---- */
+	.category__head {
+		margin-top: 28px;
+		padding: 8px 4px;
+		font-size: 17px;
+	}
+	.category__head b { color: #eef1f5; }
+
+	/* ---- Component card list ---- */
+	.components {
+		border: 1px solid #1e222b;
+		border-radius: 14px;
+		background: #12151b;
+		overflow: hidden;
+		box-shadow: 0 6px 28px rgba(0, 0, 0, 0.35);
+	}
+	.component {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 8px;
+		padding: 20px 24px;
+		border-bottom: 1px solid #1e222b;
+		background: #12151b;
+		color: #e8ebf0;
+		transition: background 0.15s ease;
+	}
+	.component:hover { background: #171b23; }
+	.component a.no-underline {
+		color: #f0f3f7;
+		font-weight: 600;
+		font-size: 15px;
+		border-bottom: 0;
+	}
+	.span-icon { float: none; margin-left: 10px; }
+	.span-icon a { color: #98a1ad; }
+
+	/* ---- Status pill badges (dot + label, InfinityFree style) ---- */
+	.component-status {
+		float: none !important;
+		display: inline-flex;
+		align-items: center;
+		gap: 7px;
+		margin-left: auto;
+		padding: 6px 14px;
+		border-radius: 999px;
+		font-size: 13px;
+		font-weight: 600;
+		line-height: 1;
+		letter-spacing: 0.3px;
+		border: 1px solid transparent;
+	}
+	.component-status::before {
+		content: "";
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: currentColor;
+		box-shadow: 0 0 7px currentColor;
+		flex: 0 0 auto;
+	}
+	.component[data-status="ok"] .component-status {
+		color: #34d399;
+		background: rgba(52, 211, 153, 0.10);
+		border-color: rgba(52, 211, 153, 0.32);
+	}
+	.component[data-status="disrupted"] .component-status {
+		color: #fbbf24;
+		background: rgba(251, 191, 36, 0.10);
+		border-color: rgba(251, 191, 36, 0.32);
+	}
+	.component[data-status="down"] .component-status {
+		color: #f87171;
+		background: rgba(248, 113, 113, 0.10);
+		border-color: rgba(248, 113, 113, 0.32);
+	}
+	.component[data-status="notice"] .component-status {
+		color: #60a5fa;
+		background: rgba(96, 165, 250, 0.10);
+		border-color: rgba(96, 165, 250, 0.32);
+	}
+	.category__head[data-status="ok"] .category-status,
+	.category__head[data-status="disrupted"] .category-status,
+	.category__head[data-status="down"] .category-status,
+	.category__head[data-status="notice"] .category-status {
+		color: #98a1ad;
+	}
+
+	/* ---- Announcement box ---- */
+	.announcement-box {
+		background: #12151b;
+		border: 1px solid #1e222b !important;
+		border-radius: 12px;
+		margin-top: 20px;
+	}
+	.announcement-box hr { border-color: #1e222b; }
+
+	/* ---- Tabs ---- */
+	.tabs { border-bottom: 1px solid #1e222b; }
+	.tab--current {
+		border: 1px solid #1e222b;
+		border-bottom-color: #0a0b0d;
+		background: #12151b;
+		color: #fff;
+	}
+	.tab--other { color: #98a1ad; }
+	.tab--other:hover { color: #fff; }
+
+	/* ---- Incident history cards ---- */
+	.issue {
+		display: block;
+		padding: 18px 24px;
+		margin-bottom: 10px;
+		background: #12151b;
+		border: 1px solid #1e222b;
+		border-radius: 12px;
+		transition: background 0.15s ease;
+	}
+	.issue:hover { background: #171b23; }
+	.issue h3 { color: #f0f3f7; }
+	.date { color: #98a1ad; }
+	.tag {
+		background: #1c222c;
+		color: #cfd6e0;
+		border-radius: 6px;
+	}
+	.next-link { color: #60a5fa; }
+
+	/* ---- Footer ---- */
+	.footer {
+		background: #0b0d12 !important;
+		border-top: 1px solid #1c2027;
+		color: #98a1ad;
+	}
+
+	/* ---- Tooltips ---- */
+	.tooltip__text {
+		background: #1a1f27 !important;
+		border: 1px solid #2a3140;
+		color: #cfd6e0 !important;
+	}
+
+	/* ---- Subscribe dropdown / modal (dark) ---- */
+	.subscribe-wrapper .subscribe-dropdown {
+		background: #161a21;
+		border: 1px solid #2a3140;
+		color: #cfd6e0;
+		box-shadow: 0 10px 32px rgba(0, 0, 0, 0.55);
+	}
+	.subscribe-wrapper .subscribe-dropdown li { color: #cfd6e0; }
+	.subscribe-wrapper .subscribe-dropdown li:hover { background: #1d222c; }
+	.subscribe-wrapper .subscribe-dropdown__icon { fill: #8a94a3; }
+	div.subscribe-modal {
+		background: #161a21 !important;
+		color: #e4e7ec !important;
+	}
+	.subscribe-modal__title { color: #fff !important; }
+	.subscribe-modal__content { color: #b9c0ca !important; }
+	.subscribe-modal__close { color: #cfd6e0 !important; }
+	.subscribe-modal__close:hover { background-color: rgba(255, 255, 255, 0.08) !important; }
+	.btn--primary { background: #3b82f6; color: #fff; border: none; }
+	.btn--primary:hover { background: #2f6fd0; }
+	#modal-overlay { background-color: rgba(0, 0, 0, 0.65) !important; }
+
+	/* ---- Misc text ---- */
+	#incidents h3 { color: #f0f3f7; }
+	#incidents p { color: #b9c0ca; }
 </style>
