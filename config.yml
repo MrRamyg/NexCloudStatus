@@ -43,6 +43,8 @@ params:
   categories:
     - name: Websites
       description: NexCloud websites and domains.
+    - name: Nexfinity Hosting
+      description: The Nexfinity hosting platform.
     - name: Community
       description: Community services.
 
@@ -51,14 +53,27 @@ params:
       description: The main NexCloud Enterprises website.
       category: Websites
       link: https://nexcloud.enterprises
-    - name: Nexfinity Hosting
-      description: Hosting dashboard and website.
-      category: Websites
-      link: https://nexfinityhosting.com
     - name: js4u.site
       description: The js4u.site domain and its services.
       category: Websites
       link: https://js4u.site
+    - name: NexCloud Status
+      description: This status page itself.
+      category: Websites
+      link: https://status.nexcloud.enterprises
+    - name: Dashboard
+      description: Nexfinity hosting dashboard, client area, and billing.
+      category: Nexfinity Hosting
+      link: https://nexfinityhosting.com
+    - name: API (Internal)
+      description: API for the Nexfinity hosting platform.
+      category: Nexfinity Hosting
+    - name: Servers
+      description: Nexfinity hosting servers and infrastructure.
+      category: Nexfinity Hosting
+    - name: Email Service (Internal)
+      description: Outbound email used to notify customers.
+      category: Nexfinity Hosting
     - name: Community Forum
       description: The NexCloud community forum.
       category: Community

@@ -5,7 +5,8 @@ resolved: false
 resolvedWhen: 2026-08-11 10:42:00
 severity: disrupted
 affected:
-  - Nexfinity Hosting
+  - Dashboard
+  - Servers
 section: issue
 ---
 
