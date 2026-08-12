@@ -81,8 +81,10 @@ params:
   customTabs:
     - name: Home
       link: https://nexcloud.enterprises
-    - name: Nexfinity
+    - name: Nexfinity Hosting
       link: https://nexfinityhosting.com
+    - name: Community Forum
+      link: https://forum.nexcloud.enterprises
 
   brand: "#0C4F9F"
   ok: "#008000"
