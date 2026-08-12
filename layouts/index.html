@@ -2,6 +2,7 @@
 
 {{ $incidents := where .Site.RegularPages "Params.section" "issue" }}
 {{ $active := where $incidents "Params.resolved" "=" false }}
+{{ $resolved := where $incidents "Params.resolved" "=" true }}
 
 {{ $isNotice := where $active "Params.severity" "=" "notice" }}
 {{ $isDisrupted := where $active "Params.severity" "=" "disrupted" }}
@@ -21,17 +22,17 @@
       <!-- "All systems operational" (or not) banner -->
       {{ partial "index/summary" . }}
 
-      <!-- Announcement box (title and short summary) -->
-      {{ partial "index/announcements" . }}
-
       <!-- Auto refresh -->
       {{ partial "index/autorefresh" . }}
     </div>
 
-  <!-- All incidents + pagination -->
-  {{ if not .Site.Params.disableIncidentHistory }}
-    <div class="contain contain--more" id="incidents">
-      {{ partial "index/incidents" . }}
+  <!-- Active incidents (unresolved) -->
+  {{ if $active }}
+    <div class="contain contain--more" id="active-incidents">
+      <h2 class="section-title">Active incidents</h2>
+      {{ range $active }}
+        {{ .Render "small" }}
+      {{ end }}
     </div>
   {{ end }}
 
@@ -44,6 +45,29 @@
       {{ end }}
       <!-- End main -->
     </div>
+
+  <!-- Incident history (resolved) -->
+  {{ if not .Site.Params.disableIncidentHistory }}
+    {{ $postsPerPage := .Site.Params.incidentPostsPerPage | default 10 }}
+    <div class="contain contain--more" id="incidents">
+      <h2 class="section-title">{{ T "incidentHistory" }}</h2>
+      {{ if not $incidents }}
+        <div class="padding"></div>
+        <h3>{{ T "calmBeforeTheStorm" }}</h3>
+        <p>{{ T "noIncidentsDesc" }}</p>
+      {{ else }}
+        {{ range first $postsPerPage $resolved }}
+          {{ .Render "small" }}
+        {{ end }}
+        {{ if gt (len $resolved) $postsPerPage }}
+        <hr>
+        <div class="right">
+          <a href="/issues/" class="next-link">{{ T "next" }} &nbsp; &rarr;</a>
+        </div>
+        {{ end }}
+      {{ end }}
+    </div>
+  {{ end }}
 
   {{ partial "js" . }}
   {{ partial "footer" . }}
