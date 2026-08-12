@@ -1,0 +1,60 @@
+<div class="issue">
+  <div class="issue__head">
+    <div class="issue__head-main">
+      <h3><a href="{{ .Permalink }}" class="no-underline">{{ .Title }}</a></h3>
+      <div class="issue__meta">
+        <span class="issue__date">
+          {{ if .Site.Params.dateFormat }}
+            {{ dateFormat .Site.Params.dateFormat .Params.date }}
+          {{ else }}
+            {{ .Date.Format "January 2, 2006 at 3:04 PM" }}
+          {{ end }}
+        </span>
+
+        {{ if .Params.Resolved }}
+          {{ $resolvedTime := time .Params.ResolvedWhen }}
+          {{ $timeDiff := sub $resolvedTime.Unix .Date.Unix }}
+          {{ if lt $timeDiff 60 }}
+            <span class="issue__dur">{{ T "resolved" }} {{ T "inUnderAMinute" }}</span>
+          {{ else }}
+            <span class="issue__dur">{{ T "resolvedAfter" }}
+              {{ $days := div $timeDiff 86400 }}
+              {{ $hours := div (mod $timeDiff 86400) 3600 }}
+              {{ $minutes := div (mod $timeDiff 3600) 60 }}
+              {{ if gt $days 0 }}{{ $days }}d {{ end }}
+              {{ if gt $hours 0 }}{{ $hours }}h {{ end }}
+              {{ $minutes }}m
+            </span>
+          {{ end }}
+        {{ end }}
+
+        {{ range .Params.Affected }}
+          <span class="tag">{{ . }}</span>
+        {{ end }}
+      </div>
+    </div>
+
+    <span class="issue__badge
+      {{ if .Params.informational }}notice
+      {{ else if .Params.Resolved }}is-resolved
+      {{ else }}{{ .Params.severity }}{{ end }}">
+      {{ if .Params.informational }}
+        Info
+      {{ else if .Params.Resolved }}
+        {{ T "resolved" }}
+      {{ else if eq .Params.severity "down" }}
+        {{ T "thisIsDown" }}
+      {{ else if eq .Params.severity "disrupted" }}
+        {{ T "thisIsDisrupted" }}
+      {{ else }}
+        {{ T "thisIsNotice" }}
+      {{ end }}
+    </span>
+  </div>
+
+  <div class="issue__updates">
+    {{ .Content }}
+  </div>
+
+  <a class="issue__more" href="{{ .Permalink }}">View details &rarr;</a>
+</div>

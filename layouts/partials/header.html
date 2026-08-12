@@ -1,0 +1,26 @@
+{{ if .Site.Params.enableCustomHTML }}
+  {{ partial "custom/above-header" . }}
+{{ end }}
+
+<header class="header">
+  <div class="header__inner">
+    <a class="header__brand" href="{{ .Site.BaseURL }}">
+      {{ if .Site.Params.useLogo }}
+        <img class="header__logo" src="{{ relURL .Site.Params.logo }}" alt="{{ .Site.Title }}">
+      {{ else }}
+        <span class="header__title">{{ .Site.Title }}</span>
+      {{ end }}
+      <span class="header__titles">
+        <span class="header__title">{{ .Site.Title }}</span>
+        <span class="header__subtitle">System status</span>
+      </span>
+    </a>
+    <nav class="header__nav">
+      <a class="header__nav-link" href="https://nexcloud.enterprises">nexcloud.enterprises &nearr;</a>
+    </nav>
+  </div>
+</header>
+
+{{ if .Site.Params.enableCustomHTML }}
+  {{ partial "custom/below-header" . }}
+{{ end }}
