@@ -1,0 +1,70 @@
+# Decap CMS (Netlify CMS) configuration for cState.
+# The admin panel is available at: https://status.nexcloud.enterprises/admin/
+# Requires Netlify Identity + Git Gateway to be enabled on the site.
+
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "static/img"
+public_folder: "/img"
+site_url: https://status.nexcloud.enterprises/
+logo_url: https://status.nexcloud.enterprises/logo.png
+
+collections:
+  - name: "issues"
+    label: "Incidents"
+    label_singular: "Incident"
+    description: "Create and manage status incidents."
+    folder: "content/issues"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    view_filters:
+      - label: Active (unresolved)
+        field: resolved
+        pattern: false
+      - label: Resolved
+        field: resolved
+        pattern: true
+      - label: Informational
+        field: informational
+        pattern: true
+      - label: Drafts
+        field: draft
+        pattern: true
+      - label: Down (high severity)
+        field: severity
+        pattern: down
+      - label: Disrupted (medium severity)
+        field: severity
+        pattern: disrupted
+      - label: Notice (low severity)
+        field: severity
+        pattern: notice
+    fields:
+      - {label: "Mark as incident", name: "section", widget: "hidden", default: "issue"}
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Start date & time (UTC)", name: "date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: "HH:mm:ss"}
+      - {label: "Mark as resolved", name: "resolved", widget: "boolean", required: false, default: false}
+      - {label: "Hide this from the site (make it a draft)", name: "draft", widget: "boolean", required: false, default: false}
+      - {label: "Mark as informational", name: "informational", widget: "boolean", required: false, default: false}
+      - {label: "Pin to top of page", name: "pin", widget: "boolean", required: false, default: false}
+      - {label: "End date & time (UTC)", name: "resolvedWhen", widget: "datetime", required: false, date_format: "YYYY-MM-DD", time_format: "HH:mm:ss"}
+      - label: "Affected systems (use exact component names)"
+        name: "affected"
+        widget: "list"
+        summary: "{{fields.individualaffected}}"
+        field:
+          - {label: "Affected System", name: "individualaffected", widget: "string"}
+        required: false
+      - label: "Severity"
+        name: "severity"
+        widget: "select"
+        options:
+          - {label: "High (Down)", value: "down"}
+          - {label: "Medium (Disrupted)", value: "disrupted"}
+          - {label: "Low (Notice)", value: "notice"}
+      - label: "Markdown body (sequence of events, description, post-mortem)"
+        name: "body"
+        widget: "markdown"
+        default: "*Investigating* - We are investigating a potential issue that might affect the uptime of one of our services. We are sorry for any inconvenience this may cause you. This incident post will be updated once we have more information."
